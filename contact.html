@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="聯絡深度優先資訊科技，開始您的數位專案。">
+    <title>聯絡我們 - 深度優先資訊科技</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="icon.ico" type="image/x-icon" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo">深度優先資訊科技<span>.</span></a>
+            <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav class="main-navigation">
+                <ul>
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="about.html">關於我們</a></li>
+                    <li><a href="services.html">服務項目</a></li>
+                    <li><a href="portfolio.html">案例分享</a></li>
+                    <li><a href="pricing.html">收費方式</a></li>
+                    <li><a href="advice.html">專業建議</a></li>
+                    <li><a href="contact.html" class="active">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section" style="background-image: url('images/contact-hero.jpg');">
+            <div class="container">
+                <h1>與我們聯繫</h1>
+                <p>期待與您一同將想法化為現實。歡迎隨時與我們討論您的需求！</p>
+            </div>
+        </section>
+
+        <section class="section-padding contact-form-section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>開始您的專案</h2>
+                    <p>請填寫下列表單，或透過右方的資訊直接與我們聯繫。我們會在最短時間內回覆您。</p>
+                </div>
+                <div class="form-grid">
+                    <div class="contact-form ">
+ <form id="myForm" action="https://script.google.com/macros/s/AKfycbz-rVxI-u1gUT_7jKDfw77FuD4GH4ze7jffHq2-o41zZBgQkm5pXQTJzqbTN2qjwrrEPw/exec" method="POST">
+  <input type="text" name="name" placeholder="您的姓名或公司名稱 *" required><br><br>
+  <input type="email" name="email" placeholder="您的電子郵件 *" required><br><br>
+  <input type="text" name="phone" placeholder="您的聯絡電話 (選填)"><br><br>
+  <input type="text" name="subject" placeholder="諮詢主旨 (例如：網站架設諮詢) *" required><br><br>
+  <textarea name="message" placeholder="請簡述您的需求或問題 *" required></textarea><br><br>
+  <button type="submit" class="btn">傳送訊息</button>
+  <p style="font-size:0.8em; margin-top:15px;">* 為必填欄位。點擊傳送即表示您同意我們的<a href="#">隱私權政策</a> (需補充連結)。</p>
+</form>
+
+<script>
+document.getElementById('myForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // 阻止表單的預設提交行為
+
+  const form = this;
+  const formData = new FormData(form);
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalButtonText = submitButton.textContent;
+
+  // 禁用按鈕並顯示傳送中
+  submitButton.disabled = true;
+  submitButton.textContent = '傳送中...';
+
+  fetch(form.action, {
+    method: form.method,
+    body: formData,
+    // mode: 'cors' // 這是 fetch 的預設值，所以可以省略不寫
+                  // 不再使用 'no-cors'，因為 Apps Script 會回傳 JSON
+  })
+  .then(response => {
+    // 檢查 HTTP 回應狀態碼
+    if (!response.ok) {
+      // 如果 HTTP 狀態不是 2xx，則嘗試解析可能的 JSON 錯誤回應
+      // Apps Script 在 ContentService 錯誤時可能不會回傳標準的 JSON，
+      // 但我們還是嘗試一下，否則拋出通用 HTTP 錯誤
+      return response.json().catch(() => {
+        throw new Error(`伺服器回應錯誤，狀態碼：${response.status}`);
+      }).then(errorData => {
+        // 如果 Apps Script 在非 200 狀態下仍回傳了 JSON 錯誤訊息
+        throw new Error(errorData.message || `伺服器回應錯誤，狀態碼：${response.status}`);
+      });
+    }
+    // 如果 HTTP 狀態是 2xx，則解析 JSON 主體
+    return response.json();
+  })
+  .then(data => {
+    // 處理從 Apps Script 收到的 JSON 資料
+    if (data.result === "success") {
+      alert(data.message || '訊息已成功送出！');
+      form.reset(); // 成功後清空表單
+      // 你也可以選擇重定向到感謝頁面
+      // window.location.href = '/thankyou.html';
+    } else {
+      // Apps Script 內部處理時發生錯誤
+      alert(data.message || '訊息傳送失敗，請稍後再試。');
+    }
+  })
+  .catch(error => {
+    // 處理 fetch 操作本身失敗或前面 .then() 中拋出的錯誤
+    console.error('傳送錯誤:', error);
+    alert(`傳送訊息時發生錯誤：${error.message}`);
+  })
+  .finally(() => {
+    // 無論成功或失敗，都恢復按鈕狀態
+    submitButton.disabled = false;
+    submitButton.textContent = originalButtonText;
+  });
+});
+</script>
+                    </div>
+
+
+
+                    <div class="contact-info ">
+                        <h3>聯絡資訊</h3>
+                        <p><strong>深度優先資訊科技</strong></p>
+                        <p>如果您有任何疑問或想進一步了解我們的服務，歡迎透過以下方式聯繫：</p>
+                        <p>📧 <strong>電子郵件:</strong> <a href="mailto:ceo@depthfit.com">ceo@depthfit.com</a></p>
+                        <p>📞 <strong>聯絡電話:</strong> <a href="tel:+886907601219">0907601219</a> </p>
+                        <p>🕒 <strong>服務時間:</strong> 週一至週五 09:00 - 18:00</p>
+                        
+                        <div class="social-links" style="margin-top:30px;">
+                            <h4>追蹤我們 (未建置):</h4>
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                        <!--
+                         <div class="map-container" style="margin-top:30px;">
+                            <p><em>(此處可嵌入 Google 地圖)</em></p>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h4>深度優先資訊科技</h4>
+                    <p>致力於提供卓越的軟體開發與數位設計服務，成為您最可靠的技術夥伴。</p>
+                </div>
+                <div>
+                    <h4>快速連結</h4>
+                    <ul>
+                         <li><a href="index.html">首頁</a></li>
+                        <li><a href="about.html">關於我們</a></li>
+                        <li><a href="services.html">服務項目</a></li>
+                        <li><a href="portfolio.html">案例分享</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>聯絡資訊</h4>
+                    <p>信箱: <a href="mailto:ceo@depthfit.com">ceo@depthfit.com</a></p>
+                    <p>電話: 0907601219</p>
+                    <p>地址: 臺中市北區頂厝里進化北路238號8樓之1,</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> 深度優先資訊科技. All Rights Reserved. </p>
+            </div>
+        </div>
+    </footer>
+    </body>
+</html>

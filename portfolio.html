@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="深度優先資訊科技的成功案例分享，包含LINE Bot整合、智慧農業平台、Flask教育平台等。">
+    <title>案例分享 - 深度優先資訊科技</title>
+    <link rel="icon" href="icon.ico" type="image/x-icon" >
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo">深度優先資訊科技<span>.</span></a>
+            <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav class="main-navigation">
+                <ul>
+                    <li><a href="index.html">首頁</a></li>
+                    <li><a href="about.html">關於我們</a></li>
+                    <li><a href="services.html">服務項目</a></li>
+                    <li><a href="portfolio.html" class="active">案例分享</a></li>
+                    <li><a href="pricing.html">收費方式</a></li>
+                    <li><a href="advice.html">專業建議</a></li>
+                    <li><a href="contact.html">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section" style="background-image: url('images/portfolio-hero.jpg');">
+            <div class="container">
+                <h1>我們的作品集</h1>
+                <p>見證我們如何為客戶創造價值。</p>
+            </div>
+        </section>
+
+        <section id="portfolio-listing" class="section-padding">
+            <div class="container">
+                <div class="section-title">
+                    <h2>精選專案案例</h2>
+                    <p>以下是我們引以為傲的部分專案成果，展現了我們在不同領域的技術實力與解決方案能力。</p>
+                </div>
+
+                <div class="portfolio-showcase">
+                    <article id="case-linebot" class="portfolio-item ">
+                        <!-- 
+                        <div class="portfolio-item-image">
+                            <img src="images/case-linebot-detail.jpg" alt="LINE Bot整合會員系統 示意圖">
+                        </div>
+                         -->
+                        <div class="portfolio-item-content">
+                            <h3>LINE Bot整合會員系統</h3>
+                            <span class="case-category">電商平台 / 會員互動</span>
+                            <p><strong>挑戰：</strong> 某電商平台希望提升其 LINE 官方帳號的會員互動率，並簡化會員資料管理流程。</p>
+                            <p><strong>解決方案：</strong> 我們為客戶開發了一套整合其現有會員系統的 LINE Bot 智慧互動機器人。該機器人能自動回覆常見問題、推送客製化優惠訊息、並引導會員完成查詢訂單、積分兌換等操作。</p>
+                            <p><strong>成果：</strong></p>
+                            <ul>
+                                <li>大幅提升 LINE 會員互動率超過 30%。</li>
+                                <li>有效降低客服人力成本。</li>
+                                <li>增強會員對品牌的黏著度與滿意度。</li>
+                                <li>實現了更精準的會員行銷。</li>
+                            </ul>
+                            <p><strong>使用技術：</strong> LINE Messaging API, Python (Flask), PostgreSQL, OAuth 2.0</p>
+                        </div>
+                    </article>
+
+                    <article id="case-agritech" class="portfolio-item  bg-light">
+                        <!-- 
+                         <div class="portfolio-item-image">
+                            <img src="images/case-agritech-detail.jpg" alt="智慧農業平台 示意圖">
+                        </div>
+                        -->
+                        <div class="portfolio-item-content">
+                            <h3>智慧農業平台</h3>
+                            <span class="case-category">農業科技 / 物聯網 (IoT)</span>
+                            <p><strong>挑戰：</strong> 傳統農場管理者難以即時掌握大範圍場域的環境數據（如溫溼度、光照等），導致管理效率低落且可能影響作物生長。</p>
+                            <p><strong>解決方案：</strong> 我們打造了一個基於微處理器 (如 ESP32/Raspberry Pi) 的溫溼度與環境因子自動監控系統。感測器收集的數據透過無線網路即時上傳至雲端平台，管理者可透過網頁或 App 隨時查看數據報表、設定警示通知。</p>
+                            <p><strong>成果：</strong></p>
+                            <ul>
+                                <li>實現農場環境數據的即時監控與視覺化。</li>
+                                <li>異常狀況即時警示，減少損失。</li>
+                                <li>數據化管理輔助耕作決策，提升作物品質與產量。</li>
+                                <li>為未來導入更進階的自動化控制奠定基礎。</li>
+                            </ul>
+                             <p><strong>使用技術：</strong> MicroPython/C++, MQTT, Node-RED, InfluxDB, Grafana, Web Sockets</p>
+                        </div>
+                    </article>
+
+                    <article id="case-flask" class="portfolio-item ">
+                        <!--
+                         <div class="portfolio-item-image">
+                            <img src="images/case-flask-detail.jpg" alt="Flask教育平台 示意圖">
+                        </div>
+                         -->
+                        <div class="portfolio-item-content">
+                            <h3>Flask教育資源管理平台</h3>
+                            <span class="case-category">教育機構 / 後台系統</span>
+                            <p><strong>挑戰：</strong> 某教育單位需要一個高效的後台系統來管理學生成績、課程資料以及教學資源，取代原有的手動 Excel 作業模式。</p>
+                            <p><strong>解決方案：</strong> 我們使用 Python Flask 框架為該單位開發了一套客製化的資料管理後台。系統包含使用者權限管理、學生資料建檔、成績登錄與統計分析、課程內容上傳下載等功能，並提供友善的操作介面。</p>
+                            <p><strong>成果：</strong></p>
+                            <ul>
+                                <li>大幅簡化了行政人員的資料處理工作。</li>
+                                <li>提升了數據的準確性與安全性。</li>
+                                <li>教師能更方便地存取與共享教學資源。</li>
+                                <li>系統具備良好擴充性，可應對未來需求。</li>
+                            </ul>
+                            <p><strong>使用技術：</strong> Python (Flask), SQLAlchemy, SQLite/PostgreSQL, HTML5, CSS3, JavaScript (jQuery/Vue.js)</p>
+                        </div>
+                    </article>
+                    </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h4>深度優先資訊科技</h4>
+                    <p>致力於提供卓越的軟體開發與數位設計服務，成為您最可靠的技術夥伴。</p>
+                </div>
+                <div>
+                    <h4>快速連結</h4>
+                    <ul>
+                         <li><a href="index.html">首頁</a></li>
+                        <li><a href="about.html">關於我們</a></li>
+                        <li><a href="services.html">服務項目</a></li>
+                        <li><a href="contact.html">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>聯絡資訊</h4>
+                    <p>信箱: <a href="mailto:ceo@depthfit.com">ceo@depthfit.com</a></p>
+                    <p>電話: 0907601219</p>
+                    <p>地址: 臺中市北區頂厝里進化北路238號8樓之1,</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> 深度優先資訊科技. All Rights Reserved. </p>
+            </div>
+        </div>
+    </footer>
+    </body>
+</html>
