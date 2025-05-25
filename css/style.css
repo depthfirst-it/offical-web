@@ -1,0 +1,772 @@
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+/* --- CSS 變數 (方便管理顏色和字體) --- */
+:root {
+    --primary-color: #0D205A;    /* 深藍 */
+    --secondary-color: #2559B2; /* 科技藍 */
+    --accent-color: #4CAF50;     /* 活力綠 */
+    --accent-hover-color: #388E3C;
+    --text-primary: #333333;
+    --text-secondary: #555555;
+    --bg-light: #F8F9FA;
+    --white-color: #FFFFFF;
+    --border-color: #DEE2E6;
+    --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.1);
+
+    --font-primary: 'Poppins', 'Noto Sans TC', sans-serif;
+    --font-secondary: 'Noto Sans TC', 'Poppins', sans-serif; /* 優先中文 */
+
+    --header-height: 70px;
+}
+
+/* --- 基本重設與全域樣式 --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* 更直觀的盒模型 */
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth; /* 平滑滾動效果 */
+    font-size: 16px; /* 設定基準字體大小 */
+}
+
+body {
+    font-family: var(--font-secondary);
+    line-height: 1.7;
+    color: var(--text-primary);
+    background-color: var(--white-color);
+    -webkit-font-smoothing: antialiased; /* 字體抗鋸齒 (MacOS/iOS) */
+    -moz-osx-font-smoothing: grayscale;   /* 字體抗鋸齒 (Firefox) */
+}
+
+.container {
+    width: 90%;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    color: var(--primary-color);
+    margin-bottom: 0.75em;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.8rem; }
+h4 { font-size: 1.4rem; }
+
+p {
+    margin-bottom: 1.25rem;
+    color: var(--text-secondary);
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul, ol {
+    list-style-position: inside;
+    padding-left: 0; /* 移除預設的 padding */
+}
+
+ul li, ol li {
+    margin-bottom: 0.5rem;
+}
+
+/* --- 通用組件 --- */
+.btn {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--white-color) !important; /* 強制白色文字 */
+    padding: 12px 28px;
+    border-radius: 50px; /* 圓角按鈕 */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-primary);
+}
+
+.btn:hover {
+    background-color: var(--accent-hover-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+}
+
+.section-padding {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.bg-light {
+    background-color: var(--bg-light);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+.section-title h2 {
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+.section-title p {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-secondary);
+}
+
+
+/* --- 頁首 Header --- */
+.site-header {
+    background-color: var(--white-color);
+    padding: 0;
+    height: var(--header-height);
+    position: fixed; /* 固定頁首 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: var(--shadow-light);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.site-header .logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.site-header .logo span { /* 用於 Logo 中的點綴字 */
+    color: var(--accent-color);
+}
+
+.main-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-navigation ul li {
+    margin-left: 25px;
+    margin-bottom: 0; /* 覆蓋全域 li 樣式 */
+}
+
+.main-navigation ul li a {
+    color: var(--text-primary);
+    font-weight: 500;
+    padding: 10px 0;
+    position: relative;
+    transition: color 0.3s ease;
+    font-family: var(--font-primary);
+}
+
+.main-navigation ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.main-navigation ul li a:hover::after,
+.main-navigation ul li a.active::after {
+    width: 100%;
+}
+
+.main-navigation ul li a.active,
+.main-navigation ul li a:hover {
+    color: var(--accent-color);
+}
+
+/* --- Mobile Navigation (Hamburger Menu) --- */
+.menu-toggle {
+    display: none; /* 預設隱藏，在小螢幕顯示 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+.menu-toggle .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 5px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* --- 英雄區塊 Hero Section (通用) --- */
+.hero-section {
+    background-color: var(--primary-color); /* 可針對不同頁面調整 */
+    background-size: cover;
+    background-position: center center;
+    padding: 120px 0;
+    color: var(--white-color);
+    text-align: center;
+    margin-top: var(--header-height); /* 避免被固定頁首遮擋 */
+    position: relative; /* 用於偽元素疊加效果 */
+}
+.hero-section::before { /* 背景疊加，增加現代感 */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(13, 32, 90, 0.7); /* 主色的半透明疊加 */
+    z-index: 1;
+}
+.hero-section .container {
+    position: relative; /* 使內容在偽元素之上 */
+    z-index: 2;
+}
+
+.hero-section h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--white-color);
+    animation: fadeInDown 1s ease-out;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+    color: rgba(255, 255, 255, 0.9);
+    animation: fadeInUp 1s ease-out 0.3s;
+    animation-fill-mode: backwards; /* 動畫開始前不可見 */
+}
+.hero-section .btn {
+    animation: fadeInUp 1s ease-out 0.6s;
+    animation-fill-mode: backwards;
+}
+
+/* --- 首頁特定 Hero --- */
+#home-hero {
+    /* 可以在這裡放背景圖片 */
+    /* background-image: url('../images/home-hero-bg.jpg'); */
+    background-color: var(--primary-color); /* 若無圖片，使用純色 */
+}
+
+/* --- 服務與案例卡片樣式 --- */
+.feature-grid, .services-grid, .portfolio-grid, .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.feature-item, .service-card, .portfolio-card, .pricing-card {
+    background-color: var(--white-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center; /* 卡片內容預設置中 */
+    overflow: hidden; /* 避免圖片超出圓角 */
+}
+
+.feature-item:hover, .service-card:hover, .portfolio-card:hover, .pricing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-medium);
+}
+
+.feature-item .icon, .service-card .icon {
+    font-size: 3rem; /* 可用 SVG 或 Font Icon */
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    /* 假設使用文字作為 icon */
+    line-height: 1;
+}
+
+.service-card .icon img, .portfolio-card .card-image img {
+    width: 100%;
+    height: 200px; /* 固定圖片高度 */
+    object-fit: cover; /* 圖片填滿方式 */
+    border-radius: 6px 6px 0 0; /* 頂部圓角 */
+    margin-bottom: 20px;
+}
+.service-card h4, .portfolio-card h4, .pricing-card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+.service-card p, .portfolio-card p, .pricing-card p, .pricing-card ul li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+.pricing-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+.pricing-card ul li {
+    padding-left: 25px;
+    position: relative;
+    text-align: left;
+}
+.pricing-card ul li::before {
+    content: '✓'; /* ✓ ✓ ✔︎ */
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+.pricing-card .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin: 20px 0;
+}
+.pricing-card .price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+
+/* --- 關於我們頁面 About Us --- */
+#about-us-section .about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+}
+#about-us-section .about-text {
+    flex: 1;
+    min-width: 300px;
+}
+#about-us-section .about-image {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+#about-us-section .about-image img {
+    max-width: 450px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+}
+.professional-background ul li {
+    padding-left: 20px;
+    position: relative;
+}
+.professional-background ul li::before {
+    content: '▶';
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+    font-size: 0.8em;
+}
+
+/* --- 聯絡我們頁面 Contact --- */
+.contact-form-section .form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 預設單欄 */
+    gap: 30px;
+}
+@media (min-width: 768px) { /* 平板以上雙欄 */
+    .contact-form-section .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.contact-info p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+.contact-info p strong {
+    color: var(--primary-color);
+}
+.contact-info .social-links a {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    color: var(--secondary-color);
+}
+.contact-info .social-links a:hover {
+    color: var(--primary-color);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(37, 89, 178, 0.25);
+}
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+
+/* --- 頁尾 Footer --- */
+.site-footer {
+    background-color: var(--primary-color);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 60px 0 30px 0;
+    margin-top: auto; /* 將頁尾推到底部 (若內容不足一屏) */
+}
+.site-footer .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+.site-footer h4 {
+    color: var(--white-color);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+.site-footer p, .site-footer ul li a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+.site-footer ul {
+    list-style: none;
+    padding: 0;
+}
+.site-footer ul li {
+    margin-bottom: 10px;
+}
+.site-footer ul li a:hover {
+    color: var(--white-color);
+    padding-left: 5px; /* 懸停時輕微位移 */
+}
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+}
+
+/* --- 動畫效果 --- */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 元素進入視圖時的動畫 (簡易版，可搭配 JS Intersection Observer 增強) */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- 響應式設計 Media Queries --- */
+@media (max-width: 991px) { /* 平板 */
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    .hero-section h1 { font-size: 2.8rem; }
+    .hero-section p { font-size: 1.1rem; }
+}
+
+@media (max-width: 767px) { /* 手機 */
+    html { font-size: 15px; }
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+    .hero-section { padding: 80px 0; }
+    .hero-section h1 { font-size: 2.4rem; }
+    .hero-section p { font-size: 1rem; }
+    .section-padding { padding-top: 60px; padding-bottom: 60px; }
+
+    .main-navigation {
+        display: none; /* 預設隱藏導覽列 */
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        background-color: var(--white-color);
+        box-shadow: var(--shadow-light);
+        padding: 15px 0;
+        flex-direction: column; /* 垂直排列 */
+    }
+    .main-navigation.is-active { /* JS 會添加此 class 來顯示 */
+        display: flex;
+    }
+    .main-navigation ul {
+        flex-direction: column;
+        width: 100%;
+    }
+    .main-navigation ul li {
+        margin-left: 0;
+        text-align: center;
+    }
+    .main-navigation ul li a {
+        display: block;
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .main-navigation ul li:last-child a {
+        border-bottom: none;
+    }
+    .main-navigation ul li a::after { /* 移除手機版底線動畫 */
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block; /* 在小螢幕顯示漢堡選單按鈕 */
+    }
+    /* 漢堡選單按鈕 'X' 形狀變換 (JS 會添加 'open' class) */
+    .menu-toggle.open .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-toggle.open .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.open .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    #about-us-section .about-content {
+        flex-direction: column;
+    }
+    #about-us-section .about-image {
+        margin-top: 30px;
+    }
+
+    .site-footer .footer-content {
+        text-align: center; /* 手機版頁尾內容置中 */
+    }
+    .site-footer .footer-content > div {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) { /* 更小手機 */
+    html { font-size: 14px; }
+    .hero-section h1 { font-size: 2rem; }
+    .container { width: 95%; }
+    .btn { padding: 10px 20px; font-size: 0.9rem; }
+}
+/* --- Services Page Specific Styles --- */
+.service-detail-item {
+    padding: 40px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    /* box-shadow: var(--shadow-light); 用 bg-light 代替 */
+}
+.service-detail-item.bg-light { /* 讓 bg-light 的 item 也有陰影，或去除普通 item 的陰影 */
+     box-shadow: var(--shadow-light);
+}
+
+.service-detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.service-detail-item h3 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+.service-detail-item ul {
+    list-style: disc;
+    padding-left: 25px;
+    margin-top: 20px;
+}
+.service-detail-item ul li {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+/* .service-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow-medium);
+} */
+ /* --- Portfolio Page Specific Styles --- */
+.portfolio-item {
+    display: flex;
+    flex-wrap: wrap; /* 在小螢幕時內容換行 */
+    gap: 30px;
+    margin-bottom: 50px;
+    padding: 30px;
+    border-radius: 8px;
+    /* box-shadow: var(--shadow-light); */ /* 改用 bg-light 或無陰影 */
+    align-items: flex-start; /* 垂直方向頂部對齊 */
+}
+.portfolio-item.bg-light {
+    box-shadow: var(--shadow-light);
+}
+
+.portfolio-item:last-child {
+    margin-bottom: 0;
+}
+
+.portfolio-item-image {
+    flex: 0 0 300px; /* 固定圖片寬度，不縮放 */
+    max-width: 100%; /* 在 flex item 內部，確保不超出 */
+}
+.portfolio-item-image img {
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: var(--shadow-medium);
+}
+
+.portfolio-item-content {
+    flex: 1; /* 佔據剩餘空間 */
+    min-width: 280px; /* 確保內容區域最小寬度 */
+}
+.portfolio-item-content h3 {
+    color: var(--secondary-color);
+    margin-top: 0; /* 因為圖片可能比文字高 */
+    margin-bottom: 10px;
+}
+.portfolio-item-content .case-category {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--white-color);
+    padding: 3px 10px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+.portfolio-item-content p strong {
+    color: var(--primary-color);
+}
+.portfolio-item-content ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.portfolio-item-content ul li {
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+/* 調整圖片和文字在不同螢幕的排列 */
+@media (max-width: 767px) {
+    .portfolio-item {
+        flex-direction: column; /* 手機上圖片在上，文字在下 */
+    }
+    .portfolio-item-image {
+        flex-basis: auto; /* 取消固定寬度 */
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* --- Pricing Page Specific Styles --- */
+.client-list ul {
+    list-style: none;
+    padding: 0;
+    display: flex; /* 嘗試橫向排列 */
+    flex-wrap: wrap; /* 可換行 */
+    justify-content: center; /* 置中 */
+    gap: 15px;
+}
+.client-list ul li {
+    background-color: var(--white-color);
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: var(--shadow-light);
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 10px; /* for wrapping */
+}
+/* --- Article/Advice Page Specific Styles --- */
+.article-content h3 {
+    color: var(--secondary-color);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+}
+.article-content blockquote {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 20px;
+    margin: 25px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+.article-content blockquote p {
+    margin-bottom: 0;
+}
