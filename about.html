@@ -116,6 +116,41 @@
                     <p>地址: 臺中市北區頂厝里進化北路238號8樓之1,</p>
                 </div>
             </div>
+            <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNavigation = document.querySelector('.main-navigation');
+
+            if (menuToggle && mainNavigation) {
+                menuToggle.addEventListener('click', function() {
+                    // 切換導覽列的 is-active class
+                    mainNavigation.classList.toggle('is-active');
+
+                    // 切換按鈕的 open class (用於X形狀變換)
+                    menuToggle.classList.toggle('open');
+
+                    // 更新 aria-expanded 屬性
+                    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+                    menuToggle.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+
+            // (可選) 當螢幕尺寸改變且大於手機斷點時，自動隱藏已展開的選單
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 767 && mainNavigation.classList.contains('is-active')) {
+                    mainNavigation.classList.remove('is-active');
+                    menuToggle.classList.remove('open');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // (可選) 更新頁尾的年份
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> 深度優先資訊科技. All Rights Reserved. </p>
             </div>
