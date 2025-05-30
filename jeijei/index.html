@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件表單 - 現代淺粉主題</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自訂字體 */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* 簡單的載入動畫 */
+        .loader {
+            border: 4px solid #fbcfe8; /* pink-200 */
+            border-top: 4px solid #f472b6; /* pink-400 */
+            border-radius: 50%;
+            width: 28px; /* 稍微縮小 */
+            height: 28px; /* 稍微縮小 */
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* 讓 datetime-local 的圖標在某些瀏覽器上更明顯 */
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.6); /* 調整圖標顏色，使其在淺色背景上更可見 */
+        }
+    </style>
+</head>
+<body class="bg-pink-50 min-h-screen flex flex-col items-center justify-center p-4 selection:bg-pink-500 selection:text-white">
+
+    <main class="bg-white p-8 md:p-10 rounded-xl shadow-lg w-full max-w-md transform transition-all duration-500 ease-in-out">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-semibold text-pink-700">新增您的事件</h1>
+            <p class="text-gray-500 mt-1">請填寫以下詳細資訊</p>
+        </header>
+
+        <form id="eventForm" class="space-y-6">
+            <div>
+                <label for="eventName" class="block text-sm font-medium text-gray-700 mb-1.5">事件名稱</label>
+                <input type="text" id="eventName" name="eventName" required
+                       class="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition duration-150 ease-in-out placeholder-gray-400"
+                       placeholder="例如：與團隊喝咖啡">
+            </div>
+
+            <div>
+                <label for="startTime" class="block text-sm font-medium text-gray-700 mb-1.5">開始時間</label>
+                <input type="datetime-local" id="startTime" name="startTime" required
+                       class="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition duration-150 ease-in-out">
+            </div>
+
+            <div>
+                <label for="endTime" class="block text-sm font-medium text-gray-700 mb-1.5">結束時間</label>
+                <input type="datetime-local" id="endTime" name="endTime" required
+                       class="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition duration-150 ease-in-out">
+            </div>
+
+            <div>
+                <button type="submit"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition duration-150 ease-in-out active:bg-pink-700">
+                    送出資料
+                </button>
+            </div>
+        </form>
+
+        <div id="messageArea" class="mt-6 text-center text-sm"></div>
+    </main>
+
+    <section id="calendarSection" class="w-full max-w-4xl mx-auto p-4 mt-10 mb-6">
+        <h2 class="text-2xl font-semibold text-pink-600 text-center mb-6">我的日曆檢視</h2>
+        <div class="bg-white p-3 sm:p-4 rounded-xl shadow-lg overflow-hidden">
+            <iframe
+                src="https://calendar.google.com/calendar/embed?src=2017101a12%40gmail.com&ctz=Asia%2FTaipei"
+                style="border:solid 1px #eee; width:100%; min-height:600px;"
+                frameborder="0"
+                scrolling="yes">
+            </iframe>
+            </div>
+       
+    </section>
+    <div id="confirmationModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-white p-8 rounded-xl shadow-xl w-full max-w-sm transform transition-all duration-300 ease-out scale-95 opacity-0"
+             data-modal-state="closed">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-5 text-center">確認您的資料</h2>
+            <div class="space-y-3 mb-7 text-gray-700 text-sm">
+                <p><strong class="font-medium text-gray-600">事件名稱：</strong> <span id="confirmEventName" class="text-gray-800"></span></p>
+                <p><strong class="font-medium text-gray-600">開始時間：</strong> <span id="confirmStartTime" class="text-gray-800"></span></p>
+                <p><strong class="font-medium text-gray-600">結束時間：</strong> <span id="confirmEndTime" class="text-gray-800"></span></p>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="cancelButton"
+                        class="py-2 px-5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 transition duration-150 ease-in-out text-sm font-medium">
+                    修改
+                </button>
+                <button id="confirmSubmitButton"
+                        class="py-2 px-5 bg-pink-500 text-white rounded-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition duration-150 ease-in-out flex items-center text-sm font-medium active:bg-pink-700">
+                    <span id="confirmSubmitButtonText">確認送出</span>
+                    <div id="loadingSpinner" class="loader ml-2 hidden"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center p-6"> <p class="text-2xl text-pink-700 opacity-75">&copy; <span id="copyrightYear"></span> <a href="https://depthfit.com">深度優先資訊科技</a>、蔡劭捷. 版權所有.</p>
+    </footer>
+
+    <script>
+        // DOM 元素獲取
+        const eventForm = document.getElementById('eventForm');
+        const eventNameInput = document.getElementById('eventName');
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+        const messageArea = document.getElementById('messageArea');
+
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmationModalContent = confirmationModal.querySelector('div[data-modal-state]');
+        const confirmEventName = document.getElementById('confirmEventName');
+        const confirmStartTime = document.getElementById('confirmStartTime');
+        const confirmEndTime = document.getElementById('confirmEndTime');
+        const cancelButton = document.getElementById('cancelButton');
+        const confirmSubmitButton = document.getElementById('confirmSubmitButton');
+        const confirmSubmitButtonText = document.getElementById('confirmSubmitButtonText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const copyrightYear = document.getElementById('copyrightYear');
+
+        // 設定版權年份
+        copyrightYear.textContent = new Date().getFullYear();
+
+        // 儲存表單資料的變數
+        let formDataToSubmit = {};
+
+        // 開啟彈窗動畫
+        function openModal() {
+            confirmationModal.classList.remove('hidden');
+            setTimeout(() => { // 確保 display:flex 已生效
+                confirmationModalContent.classList.remove('scale-95', 'opacity-0');
+                confirmationModalContent.classList.add('scale-100', 'opacity-100');
+                confirmationModalContent.dataset.modalState = 'opened';
+            }, 10);
+        }
+
+        // 關閉彈窗動畫
+        function closeModal() {
+            confirmationModalContent.classList.remove('scale-100', 'opacity-100');
+            confirmationModalContent.classList.add('scale-95', 'opacity-0');
+            confirmationModalContent.dataset.modalState = 'closed';
+            setTimeout(() => {
+                confirmationModal.classList.add('hidden');
+            }, 300); // 等待動畫完成
+        }
+
+
+        // 表單提交事件處理
+        eventForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // 防止表單傳統提交
+
+            // 獲取表單資料
+            const eventName = eventNameInput.value.trim();
+            const startTime = startTimeInput.value;
+            const endTime = endTimeInput.value;
+
+            // 簡單驗證
+            if (!eventName || !startTime || !endTime) {
+                showMessage('請填寫所有必填欄位。', 'error');
+                return;
+            }
+
+            if (new Date(startTime) >= new Date(endTime)) {
+                showMessage('結束時間必須晚於開始時間。', 'error');
+                return;
+            }
+
+            // 儲存資料以供確認後提交
+            formDataToSubmit = {
+                event: eventName,
+                startTime: startTime,
+                endTime: endTime
+            };
+
+            // 填充確認彈窗內容
+            confirmEventName.textContent = eventName;
+            confirmStartTime.textContent = formatDateTime(startTime);
+            confirmEndTime.textContent = formatDateTime(endTime);
+
+            // 顯示確認彈窗
+            openModal();
+            messageArea.innerHTML = ''; // 清除主頁面訊息
+        });
+
+        // 取消按鈕事件處理 (在確認彈窗中)
+        cancelButton.addEventListener('click', function() {
+            closeModal();
+            formDataToSubmit = {}; // 清空待提交資料
+        });
+
+        // 確認送出按鈕事件處理 (在確認彈窗中)
+        confirmSubmitButton.addEventListener('click', async function() {
+            // **重要：請將下面的網址替換成您實際部署的 Google Apps Script 網路應用程式網址**
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbxm1Sqn5B88Y6x7BmekVXXaw89iu3u5pK99MzGllGA1eyvQX57u7CEhfwNBqUO7RPh0/exec'; // 例如: https://script.google.com/macros/s/AKfy.../exec
+
+            if (apiUrl === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL' || !apiUrl) {
+                showMessage('錯誤：請先在 JavaScript 中設定您的 Google Apps Script API 網址！', 'error');
+                return;
+            }
+
+            // 顯示載入中狀態
+            confirmSubmitButtonText.textContent = '傳送中';
+            loadingSpinner.classList.remove('hidden');
+            confirmSubmitButton.disabled = true;
+            cancelButton.disabled = true;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify(formDataToSubmit)
+                });
+
+                let responseText = '';
+                try {
+                    responseText = await response.text();
+                    console.log('API Raw Response Text:', responseText);
+                } catch (textError) {
+                    console.warn('無法讀取回應的文字內容，這在 opaque redirect 時可能發生:', textError);
+                }
+
+                let operationLikelySuccess = false;
+
+                if (responseText) {
+                    try {
+                        const result = JSON.parse(responseText);
+                        if (result.status === "success") {
+                            console.log('API 提交成功 (從 Apps Script 回應解析):', result);
+                            showMessage('資料已成功送出！您的日曆應已更新。', 'success');
+                            eventForm.reset();
+                            operationLikelySuccess = true;
+                        } else {
+                            console.error('API 回應錯誤 (從 Apps Script 回應解析):', result.message || result);
+                            showMessage(`資料送出失敗：${result.message || 'Apps Script 處理時回報錯誤。'}`, 'error');
+                        }
+                    } catch (parseError) {
+                        console.warn('Apps Script 回應不是預期的 JSON 格式:', parseError, '回應內容:', responseText);
+                        if (response.status === 200) {
+                            showMessage('請求已發送，伺服器回應非預期格式。請檢查日曆及 Apps Script 執行記錄。', 'success');
+                            eventForm.reset();
+                            operationLikelySuccess = true;
+                        } else {
+                             showMessage(`處理回應時發生問題 (HTTP ${response.status})。回應內容非預期格式。請檢查 Apps Script 執行記錄。`, 'error');
+                        }
+                    }
+                } else if (response.status === 200 || response.type === 'opaque' || response.type === 'opaqueredirect') {
+                    console.log('請求已發送，但未收到明確的回應內容。Status:', response.status, 'Type:', response.type);
+                    showMessage('請求已發送至伺服器。請檢查您的日曆及 Apps Script 執行記錄以確認事件是否已新增。', 'success');
+                    eventForm.reset();
+                    operationLikelySuccess = true;
+                } else {
+                    console.error('API 提交失敗:', response.status, response.statusText, '回應內容:', responseText);
+                    showMessage(`資料送出失敗：伺服器回應狀態 ${response.status}. 請檢查 Apps Script 執行記錄。`, 'error');
+                }
+
+            } catch (error) {
+                console.error('提交過程中發生網路或客戶端錯誤:', error);
+                showMessage(`提交過程中發生錯誤：${error.message || '網路連線問題，請檢查您的網路。'}`, 'error');
+            } finally {
+                closeModal();
+                confirmSubmitButtonText.textContent = '確認送出';
+                loadingSpinner.classList.add('hidden');
+                confirmSubmitButton.disabled = false;
+                cancelButton.disabled = false;
+                formDataToSubmit = {};
+            }
+        });
+
+        // 顯示訊息的輔助函數
+        function showMessage(message, type) {
+            let textColor, bgColor, borderColor, icon;
+            if (type === 'success') {
+                textColor = 'text-pink-700';
+                bgColor = 'bg-pink-100';
+                borderColor = 'border-pink-300';
+                icon = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>';
+            } else {
+                textColor = 'text-red-700';
+                bgColor = 'bg-red-100';
+                borderColor = 'border-red-300';
+                icon = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 102 0V7zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>';
+            }
+            messageArea.innerHTML = `<div class="flex items-center ${textColor} ${bgColor} border ${borderColor} p-3 rounded-lg shadow-sm">${icon}<span>${message}</span></div>`;
+        }
+
+        // 格式化日期時間顯示
+        function formatDateTime(dateTimeString) {
+            if (!dateTimeString) return '';
+            try {
+                const date = new Date(dateTimeString);
+                return date.toLocaleString('zh-TW', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }).replace(/\//g, '-');
+            } catch (e) {
+                return dateTimeString;
+            }
+        }
+
+    </script>
+</body>
+</html>
